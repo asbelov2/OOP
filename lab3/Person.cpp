@@ -2,33 +2,20 @@
 #include<iostream>
 
 int Person::count = 0;
-Person* Person::first = NULL;
-
-Person::Person()
-{
-	if (first == NULL)
-	{
-		first = this;
-	}
-	else 
-	{
-		next = first + count * sizeof(Person);
-	}
-	_name = "";
-	_age = 0;
-	_gender = Male;
-	count++;
-}
+Person* Person::_first = NULL;
+Person* Person::_last = NULL;
 
 Person::Person(std::string name, int age, bool gender)
 {
-	if (first == NULL)
+	if (_first == NULL)
 	{
-		first = this;
+		_first = this;
+		_last = _first;
 	}
 	else 
 	{
-		next = first + count * sizeof(Person);
+		_last->SetNext(this);
+		_last = this;
 	}
 	_name = name;
 	_age = age;
@@ -36,58 +23,84 @@ Person::Person(std::string name, int age, bool gender)
 	count++;
 }
 
+Person::Person(const Person& o)
+{
+	_name = o._name;
+	_age = o._age;
+	_gender = o._gender;
+	_next = o._next;
+}
+
 void Person::PrintInfo()
 {
 	std::cout << "Name: " << _name << "\nAge: " << _age << "\nGender: ";
 	if (_gender)
 	{
-		std::cout << "Female" << std::endl;
-		std::cout << "Male" << std::endl;
+		std::cout << "Female\n";
+	}
+	else
+	{
+		std::cout << "Male\n";
 	}
 }
 
 std::string Person::GetName() { return _name; }
 int Person::GetAge() { return _age; }
 bool Person::GetGender() { return _gender; }
+
+void Person::SetName(std::string name) { _name = name; }
+void Person::SetAge(int age) { _age = age; }
+void Person::SetGender(bool gender) { _gender = gender; }
+
 Person* Person::Next() 
 { 
-	if (next != NULL) 
+	if (_next != NULL) 
 	{ 
-		return next; 
+		return _next; 
 	} 
 	else
 	{
-		std::cout << "There is no more persons" << std::endl;
+		std::cout << "There is no more persons\n";
 		return NULL;
 	}
 }
 
 Person* Person::First()
 {
-	if (first != NULL)
+	if (_first != NULL)
 	{
-		return next;
+		return _first;
 	}
 	else
 	{
-		std::cout << "There is no persons" << std::endl;
+		std::cout << "There is no persons\n";
 		return NULL;
 	}
 }
 
-Person* Person::operator[](int n)
+Person* Person::Last()
 {
-	if (n < count)
+	if (_last != NULL)
 	{
-		return first + n * sizeof(Person);
+		return _last;
 	}
 	else
 	{
+		std::cout << "_last is empty\n";
 		return NULL;
 	}
 }
 
-// Почему каждый класс использующий виртуальную функцию должен иметь виртуальный деструктор?
+void Person::SetNext(Person* next)
+{
+	_next = next;
+}
+
+int Person::GetCount()
+{
+	return count;
+}
+
 Person::~Person()
 {
 	count--;

@@ -8,20 +8,27 @@ private:
 	std::string _name = "";
 	int _age = 0;
 	bool _gender = Male;
-	static int count;
-	static Person* first;
-	Person* next;
+	static Person* _first;
+	Person* _next;
+	static Person* _last;
 public:
-	Person();
-	Person(std::string,int,bool);
+	static int count;
+
+	Person(std::string name = "",int age = 0,bool gender = Male);
+	Person(const Person& o);
 
 	std::string GetName();
 	int GetAge();
 	bool GetGender();
+	void SetName(std::string);
+	void SetAge(int);
+	void SetGender(bool);
+
 	Person* Next();
-	Person* First();
-	
-	Person* operator[](int n);
+	static Person* First();
+	static Person* Last();
+	void SetNext(Person*);
+	static int GetCount();
 
 	virtual void PrintInfo();
 
