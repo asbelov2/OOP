@@ -16,8 +16,9 @@ public:
 	void SetSalary(double);
 	std::string GetWorkPlace();
 	void SetWorkPlace(std::string);
-	virtual void PrintInfo();
-	virtual void CalculateSalary()=0;
+	virtual void PrintInfo() = 0;
+	virtual void CalculateSalary() = 0;
+	virtual std::string GetType() = 0;
 
 	virtual ~Employee();
 };

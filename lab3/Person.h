@@ -11,6 +11,8 @@ private:
 	static Person* _first;
 	Person* _next;
 	static Person* _last;
+protected:
+	std::string type;
 public:
 	static int count;
 
@@ -18,19 +20,21 @@ public:
 	Person(const Person& o);
 
 	std::string GetName();
+	virtual std::string GetType()=0;
 	int GetAge();
 	bool GetGender();
 	void SetName(std::string);
 	void SetAge(int);
 	void SetGender(bool);
-
 	Person* Next();
+	
 	static Person* First();
 	static Person* Last();
 	void SetNext(Person*);
 	static int GetCount();
 
-	virtual void PrintInfo();
+	virtual void PrintInfo()=0;
+	Person& operator[](const size_t i);
 
 	virtual ~Person();
 	enum Gender

@@ -103,5 +103,56 @@ int Person::GetCount()
 
 Person::~Person()
 {
+	if (_first == this)
+	{
+		_first = _next;
+	}
+	else
+	{
+		Person* tmp = _first;
+		if (_last == this)
+		{
+			for (int j = 0; j < count - 2; j++)
+			{
+				tmp = tmp->_next;
+			}
+			_last = tmp;
+			_last->_next = NULL;
+		}
+		else 
+		{
+			int i = 0;
+			while (tmp != this)
+			{
+				i++;
+				tmp = tmp->_next;
+			}
+			tmp = tmp->_first;
+			for (int j = 0; j < i-1; j++)
+			{
+				tmp = tmp->_next;
+			}
+			tmp->_next = this->_next;
+
+		}
+
+	}
+
 	count--;
+}
+Person& Person::operator[](const size_t i)
+{
+	/*if (i >= count)
+	{
+		return NULL;
+	}
+	else*/
+	{
+		Person* tmp = _first;
+		for (int j = 0; j < i;j++)
+		{
+			tmp = tmp->_next;
+		}
+		return *tmp;
+	}
 }

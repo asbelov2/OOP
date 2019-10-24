@@ -4,6 +4,7 @@ double Worker::_coef = 0;
 
 Worker::Worker(std::string name, int age, bool gender, double salary, std::string workPlace, int hours, double coef) : Employee(name, age, gender, salary, workPlace)
 {
+	type = "Worker";
 	_hours = hours;
 	_coef = coef;
 }
@@ -33,6 +34,11 @@ void Worker::PrintInfo()
 {
 	Employee::PrintInfo();
 	std::cout << "Hours: " << _hours << std::endl;
+}
+
+std::string Worker::GetType()
+{
+	return type;
 }
 
 void Worker::CalculateSalary()
