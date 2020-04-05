@@ -1,4 +1,5 @@
 #pragma once
+#include<fstream>
 #include<iostream>
 
 class Person
@@ -23,6 +24,7 @@ public:
 	virtual std::string GetType()=0;
 	int GetAge();
 	bool GetGender();
+	std::string GetGenderStr();
 	void SetName(std::string);
 	void SetAge(int);
 	void SetGender(bool);
@@ -32,6 +34,16 @@ public:
 	static Person* Last();
 	void SetNext(Person*);
 	static int GetCount();
+	static void DeleteAllPersons();
+
+	virtual void Write(std::fstream& os) = 0;
+	virtual void Read(std::fstream& in) = 0;
+
+	virtual void SaveInTxt(std::string filepath) = 0;
+	virtual void OpenFromTxt(std::string filepath) = 0;
+
+	virtual void SaveInBin(std::string filepath) = 0;
+	virtual void OpenFromBin(std::string filepath) = 0;
 
 	virtual void PrintInfo()=0;
 	Person& operator[](const size_t i);

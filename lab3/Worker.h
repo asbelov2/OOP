@@ -1,5 +1,7 @@
 #pragma once
 #include "Employee.h"
+#include "Engineer.h"
+
 class Worker :
 	public Employee
 {
@@ -16,6 +18,13 @@ public:
 	static void SetCoef(double coef);
 	static double GetCoef();
 
+	void SaveInTxt(std::string filepath);
+	void OpenFromTxt(std::string filepath);
+
+	void Write(std::fstream& os);
+	void Read(std::fstream& in);
+	void SaveInBin(std::string filepath);
+	void OpenFromBin(std::string filepath);
 	void PrintInfo();
 	void CalculateSalary();
 	virtual ~Worker();

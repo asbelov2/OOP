@@ -1,5 +1,5 @@
 #include "Person.h"
-#include<iostream>
+#include <string>
 
 int Person::count = 0;
 Person* Person::_first = NULL;
@@ -31,6 +31,16 @@ Person::Person(const Person& o)
 	_next = o._next;
 }
 
+void Person::DeleteAllPersons()
+{
+	Person* tmp;
+	while (GetCount() != 0)
+	{
+		tmp = Person::First();
+		delete tmp;
+	}
+}
+
 void Person::PrintInfo()
 {
 	std::cout << "Name: " << _name << "\nAge: " << _age << "\nGender: ";
@@ -47,10 +57,35 @@ void Person::PrintInfo()
 std::string Person::GetName() { return _name; }
 int Person::GetAge() { return _age; }
 bool Person::GetGender() { return _gender; }
+std::string Person::GetGenderStr() { return _gender?"Female":"Male"; }
 
 void Person::SetName(std::string name) { _name = name; }
 void Person::SetAge(int age) { _age = age; }
 void Person::SetGender(bool gender) { _gender = gender; }
+
+void Person::Write(std::fstream& os)
+{
+	size_t len0 = type.length() + 1;
+	os.write((char*)&len0, sizeof(len0));
+	os.write((char*)type.c_str(), len0);
+	size_t len = _name.length() + 1;
+	os.write((char*)&len, sizeof(len));
+	os.write((char*)_name.c_str(), len);
+	os.write((char*)&_age, sizeof(_age));
+	os.write((char*)&_gender, sizeof(_gender));
+}
+
+void Person::Read(std::fstream& is)
+{
+	size_t len;
+	is.read((char*)&len, sizeof(len));
+	char* buf = new char[len];
+	is.read(buf, len);
+	_name = buf;
+	is.read((char*)&_age, sizeof(_age));
+	is.read((char*)&_gender, sizeof(_gender));
+	delete[]buf;
+}
 
 Person* Person::Next() 
 { 
@@ -149,7 +184,7 @@ Person& Person::operator[](const size_t i)
 	else*/
 	{
 		Person* tmp = _first;
-		for (int j = 0; j < i;j++)
+		for (size_t j = 0; j < i;j++)
 		{
 			tmp = tmp->_next;
 		}
